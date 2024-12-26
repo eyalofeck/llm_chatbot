@@ -27,8 +27,8 @@ class Result(Base):
 
 
 # Example: Save a new message
-def save_result(summarize, timestamp, user):
-    the_user = get_user_by_email(user.email)
+def save_result(summarize, timestamp, email):
+    the_user = get_user_by_email(email)
     new_message = Result(summarize=summarize, timestamp=timestamp, user=the_user)
     database.Session.add(new_message)
     database.Session.commit()

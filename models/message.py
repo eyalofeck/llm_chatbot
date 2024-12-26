@@ -33,8 +33,8 @@ class Message(Base):
 
 
 # Example: Save a new message
-def save_message(role, content, to, from_, timestamp, user):
-    the_user = get_user_by_email(user.email)
+def save_message(role, content, to, from_, timestamp, email):
+    the_user = get_user_by_email(email)
     new_message = Message(role=role, content=content, to=to, from_=from_, timestamp=timestamp, user=the_user)
     database.Session.add(new_message)
     database.Session.commit()

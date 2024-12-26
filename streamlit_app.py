@@ -26,12 +26,6 @@ if 'chat_initialized' not in st.session_state:
         st.session_state.messages = []
     st.session_state.chat_initialized = True
 
-new_user = models.user.User(name="Gigi Valas", email="gigi.vala@example.com")
-
-if 'user_added' not in st.session_state:
-    models.user.add_user(new_user)
-    st.session_state.user_added = True
-
 if 'page' not in st.session_state:
     st.session_state.page = "Home"  # Default page is Home
 
@@ -41,18 +35,6 @@ def page_chat():
     if home_button:
         st.session_state.page = "Result"
         st.rerun()
-
-        # # connect openai key
-    # openai.api_key = st.secrets["OPENAI_API_KEY"]
-    #
-    # character_prompt = ("You are a friendly and helpful chatbot who loves to assist people in a cheerful manner."
-    #                     "Your name is Mufo Gapit a big talker! the son of Shosh and Vampir")
-    #
-    # if "openai_model" not in st.session_state:
-    #     st.session_state["openai_model"] = "gpt-3.5-turbo"
-    #
-    # if "messages" not in st.session_state:
-    #     st.session_state.messages = []
 
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
@@ -68,7 +50,7 @@ def page_chat():
             "timestamp": current_time.isoformat()
         })
         # st.write(st.session_state)
-        save_message("user",prompt,st.session_state.user_name,"assistant",current_time,new_user)
+        save_message("user",prompt,st.session_state.user_name,"assistant",current_time,st.session_state.user_email)
         # Display user message in chat message container
         with st.chat_message("user"):
             st.markdown(prompt)
@@ -100,7 +82,7 @@ def page_chat():
             "from": st.session_state.user_name,
             "timestamp": response_time.isoformat()
         })
-        save_message("user", full_response, "assistant", st.session_state.user_name, response_time,new_user)
+        save_message("user", full_response, "assistant", st.session_state.user_name, response_time,st.session_state.user_email)
         # st.write(st.session_state)
 
 
@@ -111,7 +93,14 @@ def page_home():
     user_name = st.text_input("Your ID please")
     chat_button = st.button("Go to Chat")
     if chat_button and user_name:
+        user_email = f"{user_name.strip()}@test.cop"
+        new_user = models.user.User(name=user_name, email=user_email)
+        if 'user_added' not in st.session_state:
+            models.user.add_user(new_user)
+            st.session_state.user_added = True
         st.session_state.user_name = user_name
+        st.session_state.user_email = user_email
+
         st.session_state.page = "Chat"
         st.rerun()
 
@@ -122,7 +111,7 @@ def page_result():
     summarize = summarize_chat()
     st.write(summarize)
     result_time = datetime.now()
-    save_result(summarize, result_time, new_user)
+    save_result(summarize, result_time, st.session_state.user_email)
 
 def summarize_chat():
     if len(st.session_state.messages) == 0:
