@@ -16,5 +16,5 @@ Base = declarative_base()
 def create_database():
     print("Creating db...")
     """Utility to create all tables based on the models."""
-    from models import user, message  # Import all models here to ensure they are registered
+    from models import user, message, result  # Import all models here to ensure they are registered
     Base.metadata.create_all(bind=engine)

@@ -5,6 +5,7 @@ import streamlit as st
 
 import database
 from models.message import save_message
+from models.result import save_result
 import models
 
 if 'database_initialized' not in st.session_state:
@@ -28,7 +29,7 @@ if 'chat_initialized' not in st.session_state:
 new_user = models.user.User(name="Gigi Valas", email="gigi.vala@example.com")
 
 if 'user_added' not in st.session_state:
-    # models.user.add_user(new_user)
+    models.user.add_user(new_user)
     st.session_state.user_added = True
 
 if 'page' not in st.session_state:
@@ -118,7 +119,10 @@ def page_home():
 def page_result():
     st.title("RESULT")
     st.write("This is the Result page.")
-    st.write(summarize_chat())
+    summarize = summarize_chat()
+    st.write(summarize)
+    result_time = datetime.now()
+    save_result(summarize, result_time, new_user)
 
 def summarize_chat():
     if len(st.session_state.messages) == 0:

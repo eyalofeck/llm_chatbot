@@ -12,6 +12,7 @@ class User(Base):
 
     # Define relationship to Message model
     messages = relationship("Message", back_populates="user", cascade="all, delete-orphan")
+    results = relationship("Result", back_populates="user", cascade="all, delete-orphan")
 
 
 def add_user(new_user):
