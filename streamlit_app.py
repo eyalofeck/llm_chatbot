@@ -9,6 +9,10 @@ from models.result import save_result
 from models.session import create_new_session
 import models
 
+def load_character_prompt(file_path):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        return f.read().strip()
+
 if 'database_initialized' not in st.session_state:
     database.create_database()
     st.session_state.database_initialized = True
@@ -16,13 +20,11 @@ if 'database_initialized' not in st.session_state:
 if 'session_id' not in st.session_state:
     st.session_state['session_id'] = create_new_session("Chat Session Name")
 
-
 if 'chat_initialized' not in st.session_state:
     # connect openai key
     openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-    st.session_state.character_prompt = ("You are a friendly and helpful chatbot who loves to assist people in a cheerful manner."
-                        "Your name is Mufo Gapit a big talker! the son of Shosh and Vampir")
+    st.session_state.character_prompt = load_character_prompt("character_prompt.txt")
 
     if "openai_model" not in st.session_state:
         st.session_state["openai_model"] = "gpt-3.5-turbo"
@@ -35,8 +37,8 @@ if 'page' not in st.session_state:
     st.session_state.page = "Home"  # Default page is Home
 
 def page_chat():
-    st.title("Jarvis")
-    home_button = st.button("Finish chat...")
+    st.title("Chatbot...")
+    home_button = st.button("Finish chat", icon=":material/send:")
     if home_button:
         st.session_state.page = "Result"
         st.rerun()
