@@ -15,7 +15,9 @@ class User(Base):
     results = relationship("Result", back_populates="user", cascade="all, delete-orphan")
 
 
-def add_user(new_user):
+def add_user(new_user, user_email):
+    if get_user_by_email(user_email):
+        return
     Session.add(new_user)
     Session.commit()
 

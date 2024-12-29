@@ -26,6 +26,10 @@ class Message(Base):
     # Define relationship to User model
     user = relationship("User", back_populates="messages")
 
+    # Foreign key for session
+    session_id = Column(Integer, ForeignKey("sessions.id"), nullable=False)
+    session = relationship("Session", back_populates="messages")
+
     def __repr__(self):
         return f"<Message(id={self.id}, role={self.role}, from_={self.from_}, to={self.to}, timestamp={self.timestamp})>"
 
@@ -33,9 +37,9 @@ class Message(Base):
 
 
 # Example: Save a new message
-def save_message(role, content, to, from_, timestamp, email):
+def save_message(role, content, to, from_, timestamp, email, session_id):
     the_user = get_user_by_email(email)
-    new_message = Message(role=role, content=content, to=to, from_=from_, timestamp=timestamp, user=the_user)
+    new_message = Message(role=role, content=content, to=to, from_=from_, timestamp=timestamp, user=the_user, session_id=session_id)
     database.Session.add(new_message)
     database.Session.commit()
 

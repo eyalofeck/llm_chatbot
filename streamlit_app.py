@@ -6,11 +6,16 @@ import streamlit as st
 import database
 from models.message import save_message
 from models.result import save_result
+from models.session import create_new_session
 import models
 
 if 'database_initialized' not in st.session_state:
     database.create_database()
     st.session_state.database_initialized = True
+
+if 'session_id' not in st.session_state:
+    st.session_state['session_id'] = create_new_session("Chat Session Name")
+
 
 if 'chat_initialized' not in st.session_state:
     # connect openai key
@@ -50,7 +55,11 @@ def page_chat():
             "timestamp": current_time.isoformat()
         })
         # st.write(st.session_state)
-        save_message("user",prompt,st.session_state.user_name,"assistant",current_time,st.session_state.user_email)
+        save_message(
+            "user",prompt,st.session_state.user_name,
+            "assistant",current_time,st.session_state.user_email,
+            st.session_state['session_id']
+        )
         # Display user message in chat message container
         with st.chat_message("user"):
             st.markdown(prompt)
@@ -82,21 +91,28 @@ def page_chat():
             "from": st.session_state.user_name,
             "timestamp": response_time.isoformat()
         })
-        save_message("user", full_response, "assistant", st.session_state.user_name, response_time,st.session_state.user_email)
+        save_message(
+            "user",
+            full_response,
+            "assistant",
+            st.session_state.user_name,
+            response_time,
+            st.session_state.user_email,
+            st.session_state['session_id'])
         # st.write(st.session_state)
 
 
 
 def page_home():
-    st.title("HOME")
-    st.write("Welcome to the Home Page!")
+    st.title("Welcome")
+    st.write("Before beginning the conversation...")
     user_name = st.text_input("Your ID please")
     chat_button = st.button("Go to Chat")
     if chat_button and user_name:
         user_email = f"{user_name.strip()}@test.cop"
         new_user = models.user.User(name=user_name, email=user_email)
         if 'user_added' not in st.session_state:
-            models.user.add_user(new_user)
+            models.user.add_user(new_user, user_email)
             st.session_state.user_added = True
         st.session_state.user_name = user_name
         st.session_state.user_email = user_email
@@ -106,12 +122,12 @@ def page_home():
 
 
 def page_result():
-    st.title("RESULT")
+    st.title("Summarize")
     st.write("This is the Result page.")
     summarize = summarize_chat()
     st.write(summarize)
     result_time = datetime.now()
-    save_result(summarize, result_time, st.session_state.user_email)
+    save_result(summarize, result_time, st.session_state.user_email, st.session_state['session_id'])
 
 def summarize_chat():
     if len(st.session_state.messages) == 0:

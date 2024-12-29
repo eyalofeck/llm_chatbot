@@ -23,13 +23,16 @@ class Result(Base):
     # Define relationship to User model
     user = relationship("User", back_populates="results")
 
+    session_id = Column(Integer, ForeignKey("sessions.id"), nullable=False)
+    session = relationship("Session", back_populates="results")
+
 
 
 
 # Example: Save a new message
-def save_result(summarize, timestamp, email):
+def save_result(summarize, timestamp, email, session_id):
     the_user = get_user_by_email(email)
-    new_message = Result(summarize=summarize, timestamp=timestamp, user=the_user)
+    new_message = Result(summarize=summarize, timestamp=timestamp, user=the_user, session_id=session_id)
     database.Session.add(new_message)
     database.Session.commit()
 
