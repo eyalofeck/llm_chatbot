@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 import openai
@@ -9,9 +10,17 @@ from models.result import save_result
 from models.session import create_new_session
 import models
 
-def load_character_prompt(file_path):
+def load_character_prompt_txt(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
         return f.read().strip()
+
+def load_character_prompt_json(file_path):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def load_initial_conversation(file_path):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
 
 if 'database_initialized' not in st.session_state:
     database.create_database()
@@ -24,26 +33,28 @@ if 'chat_initialized' not in st.session_state:
     # connect openai key
     openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-    st.session_state.character_prompt = load_character_prompt("character_prompt.txt")
+    # st.session_state.character_prompt = load_character_prompt_txt("character_prompt.txt")
+    # st.session_state.messages = load_initial_conversation("initial_conversation.json")
 
     if "openai_model" not in st.session_state:
-        st.session_state["openai_model"] = "gpt-3.5-turbo"
+        st.session_state["openai_model"] = "gpt-4o"#"gpt-3.5-turbo"
 
     if "messages" not in st.session_state:
-        st.session_state.messages = []
+        st.session_state.messages = load_character_prompt_json("character_prompt.json") #[]
+        st.session_state.chat_start_index = len(st.session_state.messages) - 1
     st.session_state.chat_initialized = True
 
 if 'page' not in st.session_state:
     st.session_state.page = "Home"  # Default page is Home
 
 def page_chat():
-    st.title("Chatbot...")
-    home_button = st.button("Finish chat", icon=":material/send:")
-    if home_button:
-        st.session_state.page = "Result"
-        st.rerun()
+    st.title("La Assistant!")
+    # home_button = st.button("Finish chat", icon=":material/send:")
+    # if home_button:
+    #     st.session_state.page = "Result"
+    #     st.rerun()
 
-    for message in st.session_state.messages:
+    for message in st.session_state.messages[st.session_state.chat_start_index:]:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
@@ -73,7 +84,7 @@ def page_chat():
             for response in openai.ChatCompletion.create(
                     model=st.session_state["openai_model"],
                     messages=[
-                                 {"role": "system", "content": st.session_state.character_prompt}
+                                 # {"role": "system", "content": st.session_state.character_prompt}
                              ] + st.session_state.messages,
                     # will provide lively writing
                     stream=True,
@@ -103,6 +114,10 @@ def page_chat():
             st.session_state['session_id'])
         # st.write(st.session_state)
 
+    home_button = st.button("Finish chat", icon=":material/send:")
+    if home_button:
+        st.session_state.page = "Result"
+        st.rerun()
 
 
 def page_home():
@@ -137,7 +152,7 @@ def summarize_chat():
 
     # Concatenate the chat history
     chat_history = "\n".join(
-        f"{msg['role']}: {msg['content']}" for msg in st.session_state.messages
+        f"{msg['role']}: {msg['content']}" for msg in st.session_state.messages[st.session_state.chat_start_index:]
     )
 
     # Use OpenAI to summarize the chat
