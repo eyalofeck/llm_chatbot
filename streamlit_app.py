@@ -121,7 +121,7 @@ def page_chat():
 
 
 def page_home():
-    st.title("Welcome")
+    st.title("ברוכים הבאים")
     st.write("Before beginning the conversation...")
     user_name = st.text_input("Your ID please")
     chat_button = st.button("Go to Chat")
@@ -157,7 +157,7 @@ def summarize_chat():
 
     # Use OpenAI to summarize the chat
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o",#"gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a helpful assistant that summarizes conversations."},
             {"role": "user", "content": f"Please summarize the following conversation:\n{chat_history}"}
