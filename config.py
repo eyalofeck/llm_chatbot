@@ -1,5 +1,6 @@
 # app/config.py
 import os
+import streamlit as st
 
 class BaseConfig:
     """Base configuration shared by all environments."""
@@ -11,7 +12,9 @@ class DevelopmentConfig(BaseConfig):
     """Configuration for the development environment."""
     # SQLite database file path for local development
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of the config file
-    SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(BASE_DIR, 'dev_app.db')}"
+    # SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(BASE_DIR, 'dev_app.db')}"
+    db_password = st.secrets["database"]["password"]
+    SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:{db_password}@db.pvoigvwnytuiwtzkxuyo.supabase.co:5432/postgres"
     DEBUG = True
 
 class TestingConfig(BaseConfig):
