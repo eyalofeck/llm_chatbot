@@ -66,7 +66,7 @@ def page_chat():
     st.markdown(
         """
         <div style="background-color: #f0f8ff; padding: 10px; border-radius: 10px;direction: rtl; text-align: right;">
-            <strong>:תיק רפואי של מר. יונתן בניון</strong> <br>
+            <strong>תיק רפואי של מר. יונתן בניון:</strong> <br>
             <strong>COPD מתקדם:</strong> Prednisolone 10 mg, Fluticasone inhaler 500 mcg, חמצן <br>
             <strong>יתר לחץ דם:</strong> Amlodipine 5 mg, Furosemide 40 mg <br>
             <strong>סוכרת סוג 2:</strong> Novorapid <br>
