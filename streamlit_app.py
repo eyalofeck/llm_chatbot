@@ -62,28 +62,7 @@ if 'page' not in st.session_state:
 
 def page_chat():
     st.title("מוקד רפואה מרחוק")
-    st.markdown("""
-    ### תיק רפואי של מר. יונתן בניון
-
-    **COPD מתקדם**  
-    מטופל ב-  
-    - Prednisolone 10 mg  
-    - Fluticasone inhaler 500 micrograms  
-    - חמצן  
-
-    **יתר לחץ דם**  
-    מטופל ב-  
-    - Amlodipine 5 mg  
-    - Furosemide 40 mg  
-
-    **סוכרת סוג 2 (NIDDM)**  
-    מטופל ב-  
-    - Novorapid  
-
-    **היסטוריה של עישון כבד**  
-    - 40 שנות קופסא  
-    - הפסיק לעשן לפני 5 שנים
-    """)
+    st.markdown("**תיק רפואי של מר. יונתן בניון**  \n**COPD מתקדם:** Prednisolone 10 mg, Fluticasone inhaler 500 micrograms, חמצן  \n**יתר לחץ דם:** Amlodipine 5 mg, Furosemide 40 mg  \n**סוכרת סוג 2 (NIDDM):** Novorapid  \n**היסטוריה של עישון כבד:** 40 שנות קופסא, הפסיק לעשן לפני 5 שנים.")
        # home_button = st.button("Finish chat", icon=":material/send:")
     # if home_button:
     #     st.session_state.page = "Result"
