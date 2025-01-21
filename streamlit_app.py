@@ -81,7 +81,7 @@ def page_chat():
     #     st.session_state.page = "Result"
     #     st.rerun()
     
-    st.markdown("<br><br><br><br>", unsafe_allow_html=True", unsafe_allow_html=True)  # Add a line break after the medical record section
+  #st.markdown("<br><br><br><br>", unsafe_allow_html=True", unsafe_allow_html=True)  # Add a line break after the medical record section
 
 
     for message in st.session_state.messages[st.session_state.chat_start_index:]:
