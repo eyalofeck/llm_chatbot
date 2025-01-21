@@ -62,16 +62,21 @@ if 'page' not in st.session_state:
 
 def page_chat():
     st.title("מוקד רפואה מרחוק")
-        st.write("""
-COPD מתקדם:  
-    - מטופל ב- Prednisolone 10 mg, Fluticasone inhaler 500 micrograms, חמצן  
-יתר לחץ דם:  
-    - מטופל ב- Amlodipine 5 mg וב- Furosemide 40 mg  
-סוכרת סוג 2 (NIDDM):  
-    - מטופל ב- Novorapid  
-היסטוריה של עישון כבד:  
-    - 40 שנות קופסא, הפסיק לעשן לפני 5 שנים.  
-""")
+    st.markdown("""
+<div style='text-align: right; direction: rtl;'>
+    <h1 style='color: blue;'>ברוכים הבאים לסימולטור וירטואלי</h1>
+    <p>אנא הזינו את <b>ארבעת הספרות האחרונות</b> של תעודת הזהות שלכם.<br>
+    לאחר מכן, ייפתח חלון ובו תוכלו לנהל שיחה עם מטופל הפונה לעזרה באמצעות <b>מוקד של רפואה מרחוק</b>.</p>
+    <h3>המשימה שלכם:</h3>
+    <ul>
+        <li>להבין את מצבו הרפואי של המטופל.</li>
+        <li>לבצע אומדנים ולקבל החלטות.</li>
+        <li>להקשיב למטופל ולשאול שאלות.</li>
+    </ul>
+    <p><b>בהצלחה!</b></p>
+</div>
+""", unsafe_allow_html=True)
+
     # home_button = st.button("Finish chat", icon=":material/send:")
     # if home_button:
     #     st.session_state.page = "Result"
