@@ -62,7 +62,7 @@ if 'page' not in st.session_state:
 
 def page_chat():
     st.title("מוקד רפואה מרחוק")
-   st.write("""
+        st.write("""
 COPD מתקדם:  
     - מטופל ב- Prednisolone 10 mg, Fluticasone inhaler 500 micrograms, חמצן  
 יתר לחץ דם:  
