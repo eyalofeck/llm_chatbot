@@ -74,7 +74,7 @@ def page_chat():
         </div>
         """,
         unsafe_allow_html=True
-
+    )
     #st.markdown("**:תיק רפואי של מר. יונתן בניון**  \n**COPD מתקדם:** Prednisolone 10 mg, Fluticasone inhaler 500 mcg, חמצן  \n**יתר לחץ דם:** Amlodipine 5 mg, Furosemide 40 mg  \n**סוכרת סוג 2:** Novorapid  \n**היסטוריה של עישון כבד:** 40 שנות קופסא, הפסיק לעשן לפני 5 שנים.")
        # home_button = st.button("Finish chat", icon=":material/send:")
     # if home_button:
