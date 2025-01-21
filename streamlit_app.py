@@ -62,21 +62,6 @@ if 'page' not in st.session_state:
 
 def page_chat():
     st.title("מוקד רפואה מרחוק")
-    st.markdown("""
-<div style='text-align: right; direction: rtl;'>
-    <h1 style='color: blue;'>ברוכים הבאים לסימולטור וירטואלי</h1>
-    <p>אנא הזינו את <b>ארבעת הספרות האחרונות</b> של תעודת הזהות שלכם.<br>
-    לאחר מכן, ייפתח חלון ובו תוכלו לנהל שיחה עם מטופל הפונה לעזרה באמצעות <b>מוקד של רפואה מרחוק</b>.</p>
-    <h3>המשימה שלכם:</h3>
-    <ul>
-        <li>להבין את מצבו הרפואי של המטופל.</li>
-        <li>לבצע אומדנים ולקבל החלטות.</li>
-        <li>להקשיב למטופל ולשאול שאלות.</li>
-    </ul>
-    <p><b>בהצלחה!</b></p>
-</div>
-""", unsafe_allow_html=True)
-
     # home_button = st.button("Finish chat", icon=":material/send:")
     # if home_button:
     #     st.session_state.page = "Result"
