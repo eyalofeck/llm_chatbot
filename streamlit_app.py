@@ -62,7 +62,20 @@ if 'page' not in st.session_state:
 
 def page_chat():
     st.title("מוקד רפואה מרחוק")
-    st.markdown("**תיק רפואי של מר. יונתן בניון**  \n**COPD מתקדם:** Prednisolone 10 mg, Fluticasone inhaler 500 micrograms, חמצן  \n**יתר לחץ דם:** Amlodipine 5 mg, Furosemide 40 mg  \n**סוכרת סוג 2 (NIDDM):** Novorapid  \n**היסטוריה של עישון כבד:** 40 שנות קופסא, הפסיק לעשן לפני 5 שנים.")
+       # Add styled medical record section
+    st.markdown(
+        """
+        <div style="background-color: #f0f8ff; padding: 10px; border-radius: 10px;">
+            <strong>:תיק רפואי של מר. יונתן בניון</strong> <br>
+            <strong>COPD מתקדם:</strong> Prednisolone 10 mg, Fluticasone inhaler 500 mcg, חמצן <br>
+            <strong>יתר לחץ דם:</strong> Amlodipine 5 mg, Furosemide 40 mg <br>
+            <strong>סוכרת סוג 2:</strong> Novorapid <br>
+            <strong>היסטוריה של עישון כבד:</strong> 40 שנות קופסא, הפסיק לעשן לפני 5 שנים
+        </div>
+        """,
+        unsafe_allow_html=True
+
+    #st.markdown("**:תיק רפואי של מר. יונתן בניון**  \n**COPD מתקדם:** Prednisolone 10 mg, Fluticasone inhaler 500 mcg, חמצן  \n**יתר לחץ דם:** Amlodipine 5 mg, Furosemide 40 mg  \n**סוכרת סוג 2:** Novorapid  \n**היסטוריה של עישון כבד:** 40 שנות קופסא, הפסיק לעשן לפני 5 שנים.")
        # home_button = st.button("Finish chat", icon=":material/send:")
     # if home_button:
     #     st.session_state.page = "Result"
