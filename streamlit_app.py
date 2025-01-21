@@ -10,6 +10,19 @@ from models.result import save_result
 from models.session import create_new_session
 import models
 
+# Add custom CSS for right-to-left text styling
+st.markdown(
+    """
+    <style>
+    body {
+        direction: rtl;
+        text-align: right;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 def load_character_prompt_txt(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
         return f.read().strip()
@@ -122,9 +135,9 @@ def page_chat():
 
 def page_home():
     st.title("ברוכים הבאים לסימולטור וירטואלי")
-    st.write(""" אנא הזינו את ארבעת הספרות האחרונות של תעודת הזהות שלכם. לאחר מכן, ייפתח חלון ובו תוכלו לנהל שיחה עם מטופל הפונה לעזרה באמצעות מוקד של רפואה מרחוק. המשימה שלכם היא להעניק היא להבין את מצבו הרפואי, לבצע אומדנים ולקבל החלטות. הקשיבו למטופל, שאלו אותו שאלות וקבלו החלטות בהתאם. בהצלחה!  """)
-    user_name = st.text_input("Your ID please")
-    chat_button = st.button("Go to Chat")
+    st.write(""" ☏ אנא הזינו את ארבעת הספרות האחרונות של תעודת הזהות שלכם. לאחר מכן, ייפתח חלון ובו תוכלו לנהל שיחה עם מטופל הפונה לעזרה באמצעות מוקד של רפואה מרחוק. המשימה שלכם היא להעניק היא להבין את מצבו הרפואי, לבצע אומדנים ולקבל החלטות. הקשיבו למטופל, שאלו אותו שאלות וקבלו החלטות בהתאם. בהצלחה!  """)
+    user_name = st.text_input(" ארבע ספרות אחרונות של תעודת זהות")
+    chat_button = st.button("להתחיל בסימולציה")
     if chat_button and user_name:
         user_email = f"{user_name.strip()}@test.cop"
         new_user = models.user.User(name=user_name, email=user_email)
