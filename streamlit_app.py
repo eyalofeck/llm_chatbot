@@ -62,7 +62,7 @@ if 'page' not in st.session_state:
 
 def page_chat():
     st.title("מוקד רפואה מרחוק")
-    st.markdown(" ")
+    st.markdown("תיק רפואי ")
     # home_button = st.button("Finish chat", icon=":material/send:")
     # if home_button:
     #     st.session_state.page = "Result"
