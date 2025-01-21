@@ -80,6 +80,8 @@ def page_chat():
     # if home_button:
     #     st.session_state.page = "Result"
     #     st.rerun()
+    
+    st.markdown("<br>", unsafe_allow_html=True)  # Add a line break for spacing
 
     for message in st.session_state.messages[st.session_state.chat_start_index:]:
         with st.chat_message(message["role"]):
