@@ -61,7 +61,17 @@ if 'page' not in st.session_state:
     st.session_state.page = "Home"  # Default page is Home
 
 def page_chat():
-    st.title("La Assistant!")
+    st.title("מוקד רפואה מרחוק")
+   st.write("""
+COPD מתקדם:  
+    - מטופל ב- Prednisolone 10 mg, Fluticasone inhaler 500 micrograms, חמצן  
+יתר לחץ דם:  
+    - מטופל ב- Amlodipine 5 mg וב- Furosemide 40 mg  
+סוכרת סוג 2 (NIDDM):  
+    - מטופל ב- Novorapid  
+היסטוריה של עישון כבד:  
+    - 40 שנות קופסא, הפסיק לעשן לפני 5 שנים.  
+""")
     # home_button = st.button("Finish chat", icon=":material/send:")
     # if home_button:
     #     st.session_state.page = "Result"
