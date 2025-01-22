@@ -63,18 +63,6 @@ if 'page' not in st.session_state:
 def page_chat():
     st.title("מוקד רפואה מרחוק")
     
-    # Ensure session state is initialized
-    if "messages" not in st.session_state:
-        st.session_state["messages"] = [
-            {"role": "system", "content": "You are a virtual patient simulating a scenario for nurse training."}
-        ]
-    if "chat_start_index" not in st.session_state:
-        st.session_state["chat_start_index"] = 0
-
-    # Debugging: Display current session state
-    st.write("Session State Debugging:", st.session_state)
-
-    
        # Add styled medical record section
     st.markdown(
         """
@@ -124,21 +112,21 @@ def page_chat():
             message_placeholder = st.empty()
             full_response = ""
             # Simulate stream of response with milliseconds delay
-            #for response in openai.ChatCompletion.create(
-                 #   model=st.session_state["openai_model"],
-                 #   messages=[
-                      #            {"role": "system", "content": st.session_state.character_prompt}
-                      #       ] + st.session_state.messages,
-                    # will provide lively writing
-                 #   stream=True,
-        #    ):
             for response in openai.ChatCompletion.create(
-                model=st.session_state["openai_model"],
-                messages=[
-                    {"role": "system", "content": load_character_prompt_json("character_prompt.json")["הנחיות_מערכת"]}
-                ] + st.session_state.messages,
-                stream=True,
+                    model=st.session_state["openai_model"],
+                    messages=[
+                        #          {"role": "system", "content": st.session_state.character_prompt}
+                             ] + st.session_state.messages,
+                     will provide lively writing
+                  stream=True,
             ):
+            #for response in openai.ChatCompletion.create(
+            #    model=st.session_state["openai_model"],
+             #   messages=[
+             #       {"role": "system", "content": load_character_prompt_json("character_prompt.json")["הנחיות_מערכת"]}
+             #   ] + st.session_state.messages,
+              #  stream=True,
+          #  ):
                 # get content in response
                 full_response += response.choices[0].delta.get("content", "")
                 # Add a blinking cursor to simulate typing
