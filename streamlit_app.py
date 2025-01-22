@@ -10,6 +10,9 @@ from models.result import save_result
 from models.session import create_new_session
 import models
 
+with open("data.json", encoding="utf-8") as file:
+    data = json.load(file)
+
 # Add custom CSS for right-to-left text styling
 st.markdown(
     """
