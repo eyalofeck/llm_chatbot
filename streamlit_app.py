@@ -117,7 +117,7 @@ def page_chat():
                     messages=[
                         #          {"role": "system", "content": st.session_state.character_prompt}
                              ] + st.session_state.messages,
-                     will provide lively writing
+                     #will provide lively writing
                   stream=True,
             ):
             #for response in openai.ChatCompletion.create(
