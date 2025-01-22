@@ -62,7 +62,6 @@ if 'page' not in st.session_state:
 
 def page_chat():
     st.title("מוקד רפואה מרחוק")
-    
        # Add styled medical record section
     st.markdown(
         """
@@ -115,18 +114,11 @@ def page_chat():
             for response in openai.ChatCompletion.create(
                     model=st.session_state["openai_model"],
                     messages=[
-                        #          {"role": "system", "content": st.session_state.character_prompt}
+                                 # {"role": "system", "content": st.session_state.character_prompt}
                              ] + st.session_state.messages,
-                     #will provide lively writing
-                  stream=True,
+                    # will provide lively writing
+                    stream=True,
             ):
-            #for response in openai.ChatCompletion.create(
-            #    model=st.session_state["openai_model"],
-             #   messages=[
-             #       {"role": "system", "content": load_character_prompt_json("character_prompt.json")["הנחיות_מערכת"]}
-             #   ] + st.session_state.messages,
-              #  stream=True,
-          #  ):
                 # get content in response
                 full_response += response.choices[0].delta.get("content", "")
                 # Add a blinking cursor to simulate typing
