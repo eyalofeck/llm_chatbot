@@ -62,6 +62,19 @@ if 'page' not in st.session_state:
 
 def page_chat():
     st.title("מוקד רפואה מרחוק")
+    
+    # Ensure session state is initialized
+    if "messages" not in st.session_state:
+        st.session_state["messages"] = [
+            {"role": "system", "content": "You are a virtual patient simulating a scenario for nurse training."}
+        ]
+    if "chat_start_index" not in st.session_state:
+        st.session_state["chat_start_index"] = 0
+
+    # Debugging: Display current session state
+    st.write("Session State Debugging:", st.session_state)
+
+    
        # Add styled medical record section
     st.markdown(
         """
