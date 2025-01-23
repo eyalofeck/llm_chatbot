@@ -1,4 +1,3 @@
-pip install langchain 
 import json
 from datetime import datetime
 
