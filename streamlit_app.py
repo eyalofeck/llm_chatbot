@@ -9,8 +9,8 @@ from models.message import save_message
 from models.result import save_result
 from models.session import create_new_session
 import models
-from langchain.prompts.chat import ChatPromptTemplate
-from langchain.schema import HumanMessage, AIMessage, SystemMessage
+# from langchain.prompts.chat import ChatPromptTemplate
+# from langchain.schema import HumanMessage, AIMessage, SystemMessage
 
 
 # Add custom CSS for right-to-left text styling
