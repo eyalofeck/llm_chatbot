@@ -11,10 +11,7 @@ from models.session import create_new_session
 import models
 # from langchain.prompts.chat import ChatPromptTemplate
 # from langchain.schema import HumanMessage, AIMessage, SystemMessage
-# Test debug abcd
-# New prompt 1
-# New prompt 2
-# New prompt 3
+
 
 
 # Add custom CSS for right-to-left text styling
