@@ -198,7 +198,7 @@ def page_chat():
             <strong>תיק רפואי של מר. יונתן בניון:</strong> <br>
             <strong>COPD מתקדם:</strong> Prednisolone 10 mg, Fluticasone inhaler 500 mcg, חמצן <br>
             <strong>יתר לחץ דם:</strong> Amlodipine 5 mg, Furosemide 40 mg <br>
-            <strong>סוכרת סוג 2:</strong> Novorapid <br>
+            <strong>סוכרת סוג 1:</strong> Novorapid <br>, Glargine<br>
             <strong>היסטוריה של עישון כבד:</strong> 40 שנות קופסא, הפסיק לעשן לפני 5 שנים
         </div>
         """,
