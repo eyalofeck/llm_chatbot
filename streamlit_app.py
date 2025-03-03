@@ -36,7 +36,7 @@ st.markdown(
 def get_chat_history():
     all_messages = st.session_state.memory.chat_memory.messages
     student_messages = [msg for msg in all_messages if isinstance(msg, HumanMessage)]
-    return messages_to_dict(student_messages[st.session_state.starting_index:])
+    return messages_to_dict(student_messages[st.session_state.starting_index // 2 :])
 
 
 def import_llm_models():
@@ -259,16 +259,16 @@ def page_chat():
                 st.session_state['session_id'])
             # st.write(st.session_state)
 
-    if len(st.session_state.memory.chat_memory.messages) > 10:
+    if st.session_state.memory:
+        for msg in st.session_state.memory.chat_memory.messages[st.session_state.starting_index:]:#[::-1]:
+            role = "user" if isinstance(msg, HumanMessage) else "assistant"
+            st.chat_message(role).write(msg.content.replace("AI:", ""))
+
+    if len(st.session_state.memory.chat_memory.messages) > 20:
         home_button = st.button("סיום שיחה", icon=":material/send:")
         if home_button:
             st.session_state.page = "Result"
             st.rerun()
-
-    if st.session_state.memory:
-        for msg in st.session_state.memory.chat_memory.messages[st.session_state.starting_index:][::-1]:
-            role = "user" if isinstance(msg, HumanMessage) else "assistant"
-            st.chat_message(role).write(msg.content.replace("AI:", ""))
 
 
 def page_home():
@@ -318,6 +318,7 @@ def llm_page_result():
 
 def llm_summarize_conversation():
     full_conversation = get_chat_history()
+    # st.write(f"Debug chat_history lang:\n\n{full_conversation}")
     summarize_prompt = f"""
     ❗ ❗ המשוב חייב להיות **בעברית בלבד**, ללא מילים באנגלית כלל.
     אם המשוב באנגלית, תתרגם אותו לעברית.
