@@ -1,4 +1,4 @@
-Fimport json
+import json
 from datetime import datetime
 from xml.dom.minidom import Document
 
