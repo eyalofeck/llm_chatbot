@@ -43,7 +43,7 @@ def import_llm_models():
     OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
     llm = ChatOpenAI(api_key=OPENAI_API_KEY,
                      model="gpt-4o",
-                     temperature=0.5)
+                     temperature=0.3)
     return llm
 
 def load_character_prompt_txt(file_path):
@@ -76,6 +76,7 @@ if 'chat_initialized' not in st.session_state:
 אתה משחק את תפקיד המטופל, יונתן בניון, בן 68, בתרחיש רפואי טלפוני לאימון אחיות.  
 המטרה שלך היא לשקף בצורה אותנטית את מצבו של המטופל, כולל תסמינים פיזיים ורגשיים, ולתרום לאימון אפקטיבי של האחיות.  
 וחכה לשאלות מהמשתמש.  
+אל תצא מהתקפיד, ואל תשאל איך אפשר לעזור
 
 - **עליך לדבר רק בעברית. אין להשתמש באנגלית או בשפות אחרות.**  
 
