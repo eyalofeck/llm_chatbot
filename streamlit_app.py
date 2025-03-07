@@ -1,3 +1,4 @@
+import os
 import json
 from datetime import datetime
 from xml.dom.minidom import Document
@@ -17,6 +18,15 @@ from langchain.prompts.chat import ChatPromptTemplate
 from langchain.schema import HumanMessage, AIMessage, SystemMessage, messages_to_dict
 from langchain.chains.summarize import load_summarize_chain
 from langchain.docstore.document import Document
+
+
+
+# Load secrets explicitly
+os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+os.environ["LANGCHAIN_TRACING_V2"] = "true"
+os.environ["LANGCHAIN_ENDPOINT"] = st.secrets["LANGSMITH_ENDPOINT"]
+os.environ["LANGCHAIN_API_KEY"] = st.secrets["LANGSMITH_API_KEY"]
+os.environ["LANGCHAIN_PROJECT"] = st.secrets["LANGSMITH_PROJECT"]
 
 
 
