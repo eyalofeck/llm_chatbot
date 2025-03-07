@@ -166,11 +166,16 @@ def page_chat():
 # Page Result
 def llm_page_result():
     st.title("סיכום השיחה")
-    full_conversation = "\n".join(msg.content for msg in st.session_state.memory.chat_memory.messages)
-    
+    student_messages = [msg.content for msg in st.session_state.memory.chat_memory.messages if isinstance(msg, HumanMessage)]
+    full_conversation = "\n".join(student_messages for student_messages in student_messages)
+
     summarize_prompt = """
-    סכם את השיחה בעברית ובגוף ראשון בלבד.
-    התייחס לאמפתיה, בדיקות קריטיות (סוכר, סטורציה), זיהוי היפוגליקמיה, המלצה לטיפול.
+    כתוב משוב ישיר לסטודנט בגוף ראשון בלבד:
+    - התייחס לאמפתיה שהפגין.
+    - התייחס לבדיקות קריטיות שערך או לא ערך (סוכר, סטורציה, חום).
+    - התייחס לזיהוי היפוגליקמיה והמלצות לטיפול שנתן.
+    - ספק לפחות 2 המלצות ספציפיות לשיפור.
+    התחל תמיד במשפט "גילית אמפתיה כש..."
     """
 
     docs = [Document(page_content=f"{full_conversation}\n\n{summarize_prompt}")]
@@ -190,4 +195,5 @@ elif st.session_state.page == "Chat":
     page_chat()
 elif st.session_state.page == "Result":
     llm_page_result()
+
 
