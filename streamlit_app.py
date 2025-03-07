@@ -133,15 +133,10 @@ def page_chat():
 def page_result():
     st.title("סיכום השיחה")
 
-    # שליפת הודעות הסטודנט
+    # Extract only student messages
     student_messages = [msg.content for msg in st.session_state.memory.chat_memory.messages if isinstance(msg, HumanMessage)]
-
-    # בדיקה אם יש מספיק נתונים למשוב
-    if len(student_messages) < 3 or sum(len(msg) for msg in student_messages) < 30:
-        st.write("🔹 לא ניתן לייצר משוב - השיחה הייתה קצרה מדי. נסה לנהל שיחה מלאה יותר.")
-        return  # מונע ניסיון לסכם כאשר אין מספיק תוכן
-
     student_text = "\n".join(student_messages)
+
 
     summarize_prompt = f"""
     אלו ההודעות של הסטודנט בסימולציה:
