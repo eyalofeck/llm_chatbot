@@ -163,37 +163,58 @@ def page_chat():
         st.session_state.page = "Result"
         st.rerun()
 
-# Page Result
 def llm_page_result():
     st.title("סיכום השיחה")
-    student_messages = [msg.content for msg in st.session_state.memory.chat_memory.messages if isinstance(msg, HumanMessage)]
-    full_conversation = "\n".join(student_messages for student_messages in student_messages)
+    student_messages = [
+        msg.content for msg in st.session_state.memory.chat_memory.messages 
+        if isinstance(msg, HumanMessage)
+    ]
+    full_conversation = "\n".join(student_messages)
 
-    summarize_prompt = """
-    כתוב משוב ישיר לסטודנט בגוף ראשון בלבד:
-    - התייחס לאמפתיה שהפגין.
-    - התייחס לבדיקות קריטיות שערך או לא ערך (סוכר, סטורציה, חום).
-    - התייחס לזיהוי היפוגליקמיה והמלצות לטיפול שנתן.
-    - ספק לפחות 2 המלצות ספציפיות לשיפור.
-    התחל תמיד במשפט "גילית אמפתיה כש..."
+    summarize_prompt = f"""
+    לפניך כל הודעות הסטודנט מהסימולציה הרפואית:
+    {full_conversation}
+
+    כתוב משוב לסטודנט **בגוף ראשון בלבד** ובצורה ישירה.  
+    המבנה יהיה בדיוק כך:
+
+    1. אמפתיה:  
+    - "גילית אמפתיה כש..." (פרט דוגמה ספציפית מתוך ההודעות).
+
+    2. בדיקות קריטיות:  
+    - "בדקת היטב את..." (אם בדק), או  
+    - "לא בדקת את..." (אם לא בדק, במיוחד סוכר וסטורציה).
+
+    3. זיהוי היפוגליקמיה:  
+    - "זיהית נכון את ההיפוגליקמיה" או  
+    - "לא זיהית את ההיפוגליקמיה."
+
+    4. המלצות לשיפור:  
+    - ספק לפחות שתי המלצות ספציפיות לשיפור.
+
+    ⚠️ אל תכתוב את המשוב מנקודת מבט של המטופל, אל תסכם את דברי המטופל, התייחס רק להודעות של הסטודנט.  
+    ⚠️ חובה לפנות ישירות לסטודנט בגוף ראשון בלבד, למשל:  
+    ✅ "גילית אמפתיה כששאלת את המטופל על מצבו."  
+    ✅ "לא בדקת את רמות הסוכר של המטופל – חשוב לשפר בפעם הבאה."
+
+    התחל תמיד ב: "גילית אמפתיה כש..."
     """
 
-    docs = [Document(page_content=f"{full_conversation}\n\n{summarize_prompt}")]
+    docs = [Document(page_content=summarize_prompt)]
     summarize_chain = load_summarize_chain(llm=st.session_state.llm, chain_type="stuff")
     summary = summarize_chain.run(docs)
 
     st.write(summary)
     save_result(summary, datetime.now(), st.session_state.user_email, st.session_state.session_id)
 
-# Main page navigation logic
-if 'page' not in st.session_state:
-    st.session_state.page = "Home"
-
+# ודא שהקריאה לפונקציה נכונה
 if st.session_state.page == "Home":
     page_home()
 elif st.session_state.page == "Chat":
     page_chat()
 elif st.session_state.page == "Result":
     llm_page_result()
+
+# עדכון זה יפתור את בעיית המשוב שלא היה ישיר לסטודנט.
 
 
