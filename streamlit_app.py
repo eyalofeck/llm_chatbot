@@ -166,33 +166,36 @@ def page_chat():
         st.session_state.page = "Result"
         st.rerun()
 
-# Page Result
 def page_result():
     st.title("סיכום השיחה")
 
+    # Extract only student messages clearly
     student_messages = [msg.content for msg in st.session_state.memory.chat_memory.messages if isinstance(msg, HumanMessage)]
-    full_conversation = "\n".join(student_messages)
+    student_text = "\n".join(student_messages)
 
     summarize_prompt = f"""
-    לפניך הודעות של סטודנט בשיחה רפואית:
+    אלו ההודעות של הסטודנט בסימולציה:
 
-    {full_conversation}
+    {student_text}
 
-    כתוב משוב אישי, בעברית, בגוף ראשון, ישירות לסטודנט בלבד, לפי הסדר הבא:
+    על סמך ההודעות האלו בלבד (ההודעות של הסטודנט בלבד), כתוב משוב ישיר לסטודנט בגוף ראשון בלבד ובצורה ברורה, לפי המבנה הבא:
 
     1. אמפתיה:
-       - התחל תמיד במשפט: "גילית אמפתיה כש..." וציין דוגמה ספציפית.
+       - התחל במשפט "גילית אמפתיה כש..." וציין דוגמה ספציפית.
 
     2. בדיקות קריטיות:
-       - אילו בדיקות ביצעת ואילו לא (רמת סוכר, סטורציה, חום).
+       - ציין אילו בדיקות קריטיות ביצע הסטודנט (סוכר, סטורציה, חום), ואילו בדיקות חשובות לא ביצע.
 
     3. זיהוי היפוגליקמיה:
-       - האם זיהית את ההיפוגליקמיה ומה המלצת לטיפול.
+       - פרט האם הסטודנט זיהה נכון היפוגליקמיה ומה הטיפול שהציע.
 
     4. המלצות לשיפור:
-       - ספק לפחות שתי המלצות לשיפור ספציפיות וברורות.
+       - ספק לפחות שתי המלצות ספציפיות וברורות לשיפור.
 
-    המשוב יהיה ישיר וברור, ללא סיכום הודעות המטופל.
+    🔴 חשוב מאוד:
+    - אל תסכם את דברי המטופל או את ההנחיות.
+    - כתוב ישירות לסטודנט בגוף ראשון בלבד.
+    - התחל את המשוב במילים: \"גילית אמפתיה כש...\"
     """
 
     docs = [Document(page_content=summarize_prompt)]
@@ -201,16 +204,5 @@ def page_result():
 
     st.write(summary)
     save_result(summary, datetime.now(), st.session_state.user_email, st.session_state.session_id)
-
-# Main page navigation
-if 'page' not in st.session_state:
-    st.session_state.page = "Home"
-
-if st.session_state.page == "Home":
-    page_home()
-elif st.session_state.page == "Chat":
-    page_chat()
-elif st.session_state.page == "Result":
-    page_result()
 
 
