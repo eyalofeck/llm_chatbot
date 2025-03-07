@@ -45,8 +45,7 @@ if 'chat_initialized' not in st.session_state:
     st.session_state.memory = ConversationBufferMemory(memory_key="chat_history", max_token_limit=3000)
 
     st.session_state.system_template = """
-    st.session_state.system_template = """
-       אתה משחק את תפקיד המטופל, יונתן בניון, בן 68, בתרחיש רפואי טלפוני לאימון אחיות.  
+           אתה משחק את תפקיד המטופל, יונתן בניון, בן 68, בתרחיש רפואי טלפוני לאימון אחיות.  
         המטרה שלך היא לשקף בצורה אותנטית את מצבו של המטופל, כולל תסמינים פיזיים ורגשיים, ולתרום לאימון אפקטיבי של האחיות.  
         וחכה לשאלות מהמשתמש.  
 
