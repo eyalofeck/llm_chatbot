@@ -216,7 +216,8 @@ if st.session_state.page == "Home":
 elif st.session_state.page == "Chat":
     page_chat()
 elif st.session_state.page == "Result":
-    page_result()
+    llm_page_result()
+
 
 def page_result():
     st.title("סיכום השיחה")
@@ -241,8 +242,5 @@ def page_result():
 
     st.write(summary)
     save_result(summary, datetime.now(), st.session_state.user_email, st.session_state.session_id)
-
-elif st.session_state.page == "Result":
-    llm_page_result()
 
 
