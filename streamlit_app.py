@@ -189,5 +189,5 @@ if st.session_state.page == "Home":
 elif st.session_state.page == "Chat":
     page_chat()
 elif st.session_state.page == "Result":
-    page_result()
+    llm_page_result()
 
