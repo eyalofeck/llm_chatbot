@@ -165,8 +165,6 @@ def page_result():
     - התחל את המשוב במילים: \"גילית אמפתיה כש...\"
     """
 
-    """
-
     docs = [Document(page_content=summarize_prompt)]
     summarize_chain = load_summarize_chain(st.session_state.llm, chain_type="stuff")
     summary_response = summarize_chain.invoke(docs)['output_text']  # Fixed summarization
