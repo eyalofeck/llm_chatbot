@@ -208,13 +208,40 @@ def llm_page_result():
     save_result(summary, datetime.now(), st.session_state.user_email, st.session_state.session_id)
 
 # ודא שהקריאה לפונקציה נכונה
+if 'page' not in st.session_state:
+    st.session_state.page = "Home"
+
 if st.session_state.page == "Home":
     page_home()
 elif st.session_state.page == "Chat":
     page_chat()
 elif st.session_state.page == "Result":
-    llm_page_result()
+    page_result()
 
-# עדכון זה יפתור את בעיית המשוב שלא היה ישיר לסטודנט.
+def page_result():
+    st.title("סיכום השיחה")
+    student_messages = [msg.content for msg in st.session_state.memory.chat_memory.messages if isinstance(msg, HumanMessage)]
+    full_conversation = "\n".join(student_messages)
+
+    summarize_prompt = f"""
+    כתוב משוב ישיר לסטודנט בגוף ראשון בלבד:
+    1. אמפתיה:
+       - התחל במשפט "גילית אמפתיה כש..." עם דוגמה ספציפית.
+    2. בדיקות קריטיות:
+       - פרט אילו בדיקות נערכו ואילו לא (רמת סוכר, סטורציה, חום).
+    3. זיהוי היפוגליקמיה:
+       - האם זוהתה היפוגליקמיה ומה הטיפול שהומלץ.
+    4. המלצות לשיפור:
+       - תן לפחות 2 המלצות ברורות לשיפור.
+    """
+
+    docs = [Document(page_content=f"{full_conversation}\n\n{summarize_prompt}")]
+    summarize_chain = load_summarize_chain(llm=st.session_state.llm, chain_type="stuff")
+    summary = summarize_chain.run(docs)
+
+    st.write(summary)
+    save_result(summary, datetime.now(), st.session_state.user_email, st.session_state.session_id)
+
+
 
 
