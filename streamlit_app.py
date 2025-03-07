@@ -274,7 +274,7 @@ def page_chat():
             role = "user" if isinstance(msg, HumanMessage) else "assistant"
             st.chat_message(role).write(msg.content.replace("AI:", ""))
 
-    if len(st.session_state.memory.chat_memory.messages) > 20:
+    if len(st.session_state.memory.chat_memory.messages) > 1000:
         home_button = st.button("סיום שיחה", icon=":material/send:")
         if home_button:
             st.session_state.page = "Result"
