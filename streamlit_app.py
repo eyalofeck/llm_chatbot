@@ -136,34 +136,32 @@ def page_result():
     student_messages = [msg.content for msg in st.session_state.memory.chat_memory.messages if isinstance(msg, HumanMessage)]
     student_text = "\n".join(student_messages)
 
-    summarize_prompt = f"""
-לפניך הודעות של הסטודנט בלבד מתוך הסימולציה הרפואית:
+    summarize_prompt_template = """
+    לפניך הודעות של הסטודנט בלבד מתוך הסימולציה הרפואית:
 
-{student_text}
+    {student_text}
 
-כתוב משוב אישי בעברית בלבד,  אם יש אנגלית- תרגם לעברית. כתוב בגוף ראשון, ישירות לסטודנט לפי הסדר הבא:
+    כתוב משוב אישי בעברית בלבד,  אם יש אנגלית- תרגם לעברית. כתוב בגוף ראשון, ישירות לסטודנט לפי הסדר הבא:
 
-1. **אמפתיה:** התחל תמיד במשפט "גילית אמפתיה כש..." וציין דוגמה ספציפית מתוך הודעות הסטודנט בלבד.
-2. **בדיקות קריטיות:** אילו בדיקות ביצעת ואילו לא (רמת סוכר, סטורציה, חום).
-3. **זיהוי היפוגליקמיה:** האם זיהית את ההיפוגליקמיה ומה המלצת לטיפול.
-4. **המלצות לשיפור:** ספק לפחות שתי המלצות ספציפיות וברורות.
+    1. **אמפתיה:** התחל תמיד במשפט "גילית אמפתיה כש..." וציין דוגמה ספציפית מתוך הודעות הסטודנט בלבד.
+    2. **בדיקות קריטיות:** אילו בדיקות ביצעת ואילו לא (רמת סוכר, סטורציה, חום).
+    3. **זיהוי היפוגליקמיה:** האם זיהית את ההיפוגליקמיה ומה המלצת לטיפול.
+    4. **המלצות לשיפור:** ספק לפחות שתי המלצות ספציפיות וברורות.
 
-❗ **חובה:**  
-- כתוב ישירות לסטודנט בגוף ראשון בלבד.  
-- אל תסכם את דברי המטופל או ההנחיות.  
-- התחל את המשוב במילים: "גילית אמפתיה כש..."
-"""
-                                                                                                                                                                                                                                                            
-  
+    ❗ **חובה:**
+    - כתוב ישירות לסטודנט בגוף ראשון בלבד.
+    - אל תסכם את דברי המטופל או ההנחיות.
+    - התחל את המשוב במילים: "גילית אמפתיה כש..."
+    """
 
-    docs = [Document(page_content=summarize_prompt)]
-    summarize_chain = load_summarize_chain(st.session_state.llm, chain_type="stuff")
+    feedback_prompt = ChatPromptTemplate.from_template(summarize_prompt_template)
 
-    summary_response = summarize_chain.invoke({"input_documents": docs})['output_text']
+    formatted_prompt = feedback_prompt.format_messages(student_text=student_text)  # Format with student text
+
+    summary_response = st.session_state.llm.invoke(formatted_prompt).content  # Invoke LLM directly
 
     st.write(summary_response)
     save_result(summary_response, datetime.now(), st.session_state.user_email, st.session_state.session_id)
-
     
 # Page Routing
 if "page" not in st.session_state:
