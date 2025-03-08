@@ -35,7 +35,7 @@ st.markdown(
 
 # Initialize OpenAI Model
 def import_llm_models():
-    return ChatOpenAI(model="gpt-4o", temperature=0.6)
+    return ChatOpenAI(model="gpt-4o", temperature=0.4)
 
 # Initialize session state
 if 'chat_initialized' not in st.session_state:
@@ -70,10 +70,11 @@ if 'chat_initialized' not in st.session_state:
 
         **מדדים מדווחים:**  
         - **סטורציה:** 93% באוויר החדר  
-        - **לחץ דם:** לא נמדד  
-        - **סוכר בדם:** לא נמדד לאחרונה (היה "בסדר" בבוקר)  
-        - **לקחתי אינסולין לפני כשעה**  
-
+        - ** לחץ דם:** 125/71  
+        - **סוכר בדם:** לא נמדד לאחרונה 
+        - ** אם מתבקש למדוד, אז ימדוד וידווח על סוכר 51 **
+        - ** לקחתי אינסולין לפנישעה וחצי, נראה לי שלא אכלתי כי לא הרגשתי טוב **
+        
         **מידע מוסתר:**  
         - לא אכל לאחר הזרקת אינסולין  
         - תחושת בלבול לפרקים  
@@ -115,8 +116,16 @@ def page_chat():
 
             st.session_state.memory.chat_memory.add_message(AIMessage(content=ai_response))  # Save AI response
 
-            save_message("user", prompt, st.session_state.user_name, "assistant", datetime.now(), st.session_state.user_email, st.session_state.session_id)
-            save_message("assistant", ai_response, "assistant", st.session_state.user_name, datetime.now(), st.session_state.user_email, st.session_state.session_id)
+            #save_message("user", prompt, st.session_state.user_name, "assistant", datetime.now(), st.session_state.user_email, st.session_state.session_id)
+            
+            #save_message("assistant", ai_response, "assistant", st.session_state.user_name, datetime.now(), st.session_state.user_email, st.session_state.session_id)
+
+            # Ensure user email exists before saving
+            if st.session_state.user_email:
+                database.save_message("user", prompt, st.session_state.user_name, "assistant", datetime.now(), st.session_state.user_email, st.session_state.session_id)
+                database.save_message("assistant", ai_response, "assistant", st.session_state.user_name, datetime.now(), st.session_state.user_email, st.session_state.session_id)
+            else:
+                st.error("User email is missing. Cannot save message.")
 
             st.rerun()
 
