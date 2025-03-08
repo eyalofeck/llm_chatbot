@@ -119,7 +119,7 @@ def page_chat():
             #save_message("user", prompt, st.session_state.user_name, "assistant", datetime.now(), st.session_state.user_email, st.session_state.session_id)
             
             
-            save_message("user", prompt, user_name, "assistant", datetime.now(), st.session_state.user_email, st.session_state.session_id)
+            save_message("user", prompt, st.session_state.user_name, "assistant", datetime.now(), st.session_state.user_email, st.session_state.session_id)
 
             
             save_message("assistant", ai_response, "assistant", st.session_state.user_name, datetime.now(), st.session_state.user_email, st.session_state.session_id)
