@@ -132,27 +132,54 @@ def page_chat():
 
 def page_result():
     st.title("סיכום השיחה")
-    student_messages = [msg.content for msg in st.session_state.memory.chat_memory.messages if isinstance(msg, HumanMessage)]
-    full_conversation = "\n".join(student_messages)
+    
+    try:
+        with st.spinner("מכין משוב..."):
+            # Extract all messages for context
+            all_messages = []
+            for msg in st.session_state.memory.chat_memory.messages:
+                role = "Student" if isinstance(msg, HumanMessage) else "Patient"
+                all_messages.append(f"{role}: {msg.content}")
+            
+            conversation_text = "\n".join(all_messages)
+            
+            # Create prompt that clearly separates the conversation from instructions
+            evaluation_prompt = f"""
+            להלן שיחה בין סטודנט לסיעוד ומטופל וירטואלי עם היפוגליקמיה:
 
-    summarize_prompt = f"""
-    כתוב משוב ישיר לסטודנט בגוף ראשון בלבד:
-    1. אמפתיה:
-       - התחל במשפט "גילית אמפתיה כש..." עם דוגמה ספציפית.
-    2. בדיקות קריטיות:
-       - פרט אילו בדיקות נערכו ואילו לא (רמת סוכר, סטורציה, חום).
-    3. זיהוי היפוגליקמיה:
-       - האם זוהתה היפוגליקמיה ומה הטיפול שהומלץ.
-    4. המלצות לשיפור:
-       - תן לפחות 2 המלצות ברורות לשיפור.
-    """
+            {conversation_text}
 
-    docs = [Document(page_content=f"{full_conversation}\n\n{summarize_prompt}")]
-    summarize_chain = load_summarize_chain(llm=st.session_state.llm, chain_type="stuff")
-    summary = summarize_chain.run(docs)
+            ---
 
-    st.write(summary)
-    save_result(summary, datetime.now(), st.session_state.user_email, st.session_state.session_id)
+            בהתבסס על השיחה לעיל בלבד, כתוב משוב ישיר לסטודנט בגוף ראשון.
+            הערך את הנקודות הבאות:
+
+            1. אמפתיה: התחל במשפט "גילית אמפתיה כש..." עם דוגמה ספציפית מהשיחה.
+            
+            2. בדיקות קריטיות: פרט אילו בדיקות נערכו ואילו לא (רמת סוכר, סטורציה, חום).
+            
+            3. זיהוי היפוגליקמיה: האם הסטודנט זיהה היפוגליקמיה? מה הטיפול שהומלץ?
+            
+            4. המלצות לשיפור: תן לפחות 2 המלצות ברורות לשיפור.
+            """
+            
+            # Use direct LLM call instead of summarize chain for more control
+            feedback = st.session_state.llm.invoke(evaluation_prompt).content
+            
+            # Display feedback
+            st.write(feedback)
+            
+            # Save feedback to database
+            save_result(feedback, datetime.now(), st.session_state.user_email, st.session_state.session_id)
+            
+            # Option to restart
+            if st.button("התחל סימולציה חדשה"):
+                st.session_state.clear()
+                st.rerun()
+    except Exception as e:
+        st.error(f"שגיאה בהכנת המשוב: {e}")
+        if st.button("נסה שוב"):
+            st.rerun()
 # Page Routing
 if "page" not in st.session_state:
     st.session_state.page = "Home"
