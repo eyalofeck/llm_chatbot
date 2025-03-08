@@ -129,40 +129,30 @@ def page_chat():
         st.rerun()
 
 # Page Result
+
 def page_result():
     st.title("סיכום השיחה")
-
-    # Extract only student messages
     student_messages = [msg.content for msg in st.session_state.memory.chat_memory.messages if isinstance(msg, HumanMessage)]
-    student_text = "\n".join(student_messages)
+    full_conversation = "\n".join(student_messages)
 
-    summarize_prompt_template = """
-    לפניך הודעות של הסטודנט בלבד מתוך הסימולציה הרפואית:
-
-    {student_text}
-
-    כתוב משוב אישי בעברית בלבד,  אם יש אנגלית- תרגם לעברית. כתוב בגוף ראשון, ישירות לסטודנט לפי הסדר הבא:
-
-    1. **אמפתיה:** התחל תמיד במשפט "גילית אמפתיה כש..." וציין דוגמה ספציפית מתוך הודעות הסטודנט בלבד.
-    2. **בדיקות קריטיות:** אילו בדיקות ביצעת ואילו לא (רמת סוכר, סטורציה, חום).
-    3. **זיהוי היפוגליקמיה:** האם זיהית את ההיפוגליקמיה ומה המלצת לטיפול.
-    4. **המלצות לשיפור:** ספק לפחות שתי המלצות ספציפיות וברורות.
-
-    ❗ **חובה:**
-    - כתוב ישירות לסטודנט בגוף ראשון בלבד.
-    - אל תסכם את דברי המטופל או ההנחיות.
-    - התחל את המשוב במילים: "גילית אמפתיה כש..."
+    summarize_prompt = f"""
+    כתוב משוב ישיר לסטודנט בגוף ראשון בלבד:
+    1. אמפתיה:
+       - התחל במשפט "גילית אמפתיה כש..." עם דוגמה ספציפית.
+    2. בדיקות קריטיות:
+       - פרט אילו בדיקות נערכו ואילו לא (רמת סוכר, סטורציה, חום).
+    3. זיהוי היפוגליקמיה:
+       - האם זוהתה היפוגליקמיה ומה הטיפול שהומלץ.
+    4. המלצות לשיפור:
+       - תן לפחות 2 המלצות ברורות לשיפור.
     """
 
-    feedback_prompt = ChatPromptTemplate.from_template(summarize_prompt_template)
+    docs = [Document(page_content=f"{full_conversation}\n\n{summarize_prompt}")]
+    summarize_chain = load_summarize_chain(llm=st.session_state.llm, chain_type="stuff")
+    summary = summarize_chain.run(docs)
 
-    formatted_prompt = feedback_prompt.format_messages(student_text=student_text)  # Format with student text
-
-    summary_response = st.session_state.llm.invoke(formatted_prompt).content  # Invoke LLM directly
-
-    st.write(summary_response)
-    save_result(summary_response, datetime.now(), st.session_state.user_email, st.session_state.session_id)
-    
+    st.write(summary)
+    save_result(summary, datetime.now(), st.session_state.user_email, st.session_state.session_id)
 # Page Routing
 if "page" not in st.session_state:
     st.session_state.page = "Home"
