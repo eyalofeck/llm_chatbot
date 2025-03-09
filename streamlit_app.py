@@ -124,8 +124,16 @@ def page_home():
     """)
     user_name = st.text_input("הזן 4 ספרות אחרונות של ת.ז")
     if st.button("התחל סימולציה") and user_name:
+        user_email = f"{user_name.strip()}@test.cop"
+        new_user = models.user.User(name=user_name, email=user_email)
+        if 'user_added' not in st.session_state:
+            models.user.add_user(new_user, user_email)
+            st.session_state.user_added = True
         st.session_state.user_name = user_name
-        st.session_state.user_email = f"{user_name}@test.cop"
+        st.session_state.user_email = user_email
+        
+        #st.session_state.user_name = user_name
+        #st.session_state.user_email = f"{user_name}@test.cop"
         st.session_state.page = "Chat"
         st.rerun()
 
