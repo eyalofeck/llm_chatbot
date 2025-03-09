@@ -2,10 +2,13 @@ from datetime import datetime
 
 from requests import Session
 from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, scoped_session, sessionmaker
 
 import database
-from database import Base, Session
+from database import Base, engine
+
+SessionFactory = sessionmaker(bind=engine)
+Session = scoped_session(SessionFactory)
 
 class ChatSession(Base):
     __tablename__ = "sessions"
