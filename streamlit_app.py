@@ -180,7 +180,7 @@ def page_chat():
                     with st.chat_message(role):
                         st.markdown(msg.content)
 
-            st.experimental_rerun()  # רענון הממשק כדי לוודא שהתוכן מוצג מחדש עם ההודעה האחרונה
+           st.rerun()   # רענון הממשק כדי לוודא שהתוכן מוצג מחדש עם ההודעה האחרונה
 
             #st.rerun()
 
