@@ -6,6 +6,7 @@ import openai
 import streamlit as st
 
 import database
+import models
 from models.message import save_message
 from models.result import save_result
 from models.session import create_new_session
