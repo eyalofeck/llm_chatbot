@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from requests import Session
+#from requests import Session
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship, scoped_session, sessionmaker
 
@@ -8,7 +8,7 @@ import database
 from database import Base, engine
 
 SessionFactory = sessionmaker(bind=engine)
-Session = scoped_session(SessionFactory)
+SessionLocal = scoped_session(SessionFactory)
 
 class ChatSession(Base):
     __tablename__ = "sessions"
@@ -23,7 +23,7 @@ class ChatSession(Base):
 
 
 def create_new_session(name: str):
-    db_session = Session()
+    db_session = SessionLocal()
     new_session = ChatSession(name=name, created_at=datetime.now())
     db_session.add(new_session)
     db_session.commit()
