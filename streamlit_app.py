@@ -224,7 +224,7 @@ def page_result():
             save_result(feedback, datetime.now(), st.session_state.user_email, st.session_state.session_id)
             
             # Option to restart
-            if st.button("התחל סימולציה חדשה"):
+           # if st.button("התחל סימולציה חדשה"):
            #     st.session_state.clear()
               #  st.rerun()
     except Exception as e:
