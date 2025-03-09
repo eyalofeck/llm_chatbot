@@ -145,7 +145,7 @@ def page_chat():
         unsafe_allow_html=True
     )
 
-     with chat_placeholder.container():
+    with chat_placeholder.container():
         for msg in st.session_state.memory.chat_memory.messages:
             role = "user" if isinstance(msg, HumanMessage) else "assistant"
             with st.chat_message(role):
