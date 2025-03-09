@@ -164,14 +164,6 @@ def page_chat():
 
             st.rerun()
 
-    for msg in reversed(st.session_state.memory.chat_memory.messages):
-        role = "user" if isinstance(msg, HumanMessage) else "assistant"
-        st.chat_message(role).write(msg.content)
-
-    if st.button("סיים שיחה"):
-        st.session_state.page = "Result"
-        st.rerun()
-
         
 
     for msg in reversed(st.session_state.memory.chat_memory.messages):
