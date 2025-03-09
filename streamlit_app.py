@@ -132,8 +132,6 @@ def page_home():
 def page_chat():
     st.title("מוקד רפואה מרחוק")
 
-    chat_placeholder = st.empty()
-
     st.markdown(
         """
         <div style="background-color: #f0f8ff; padding: 10px; border-radius: 10px;direction: rtl; text-align: right;">
@@ -147,6 +145,8 @@ def page_chat():
         unsafe_allow_html=True
     )
 
+    chat_placeholder = st.empty()
+    
     with chat_placeholder.container():
         for msg in st.session_state.memory.chat_memory.messages:
             role = "user" if isinstance(msg, HumanMessage) else "assistant"
@@ -173,7 +173,7 @@ def page_chat():
             
             save_message("assistant", ai_response, "assistant", st.session_state.user_name, datetime.now(), st.session_state.user_email, st.session_state.session_id)
 
-          
+            chat_placeholder.empty()
             with chat_placeholder.container():
                 for msg in st.session_state.memory.chat_memory.messages:
                     role = "user" if isinstance(msg, HumanMessage) else "assistant"
@@ -182,7 +182,7 @@ def page_chat():
 
         st.rerun()   # רענון הממשק כדי לוודא שהתוכן מוצג מחדש עם ההודעה האחרונה
 
-            #st.rerun()
+        
 
     for msg in reversed(st.session_state.memory.chat_memory.messages):
         role = "user" if isinstance(msg, HumanMessage) else "assistant"
