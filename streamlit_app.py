@@ -166,7 +166,7 @@ def page_chat():
 
         
 
-    for msg in reversed(st.session_state.memory.chat_memory.messages):
+    for msg in st.session_state.memory.chat_memory.messages: #reversed(st.session_state.memory.chat_memory.messages):
         role = "user" if isinstance(msg, HumanMessage) else "assistant"
         st.chat_message(role).write(msg.content)
 
