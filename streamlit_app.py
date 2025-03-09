@@ -134,6 +134,7 @@ def page_home():
     # Page Chat
 def page_chat():
     st.title("מוקד רפואה מרחוק")
+    st.markdown(
         """
         <div style="background-color: #f0f8ff; padding: 10px; border-radius: 10px;direction: rtl; text-align: right;">
             <strong>תיק רפואי של מר. יונתן בניון:</strong> <br>
