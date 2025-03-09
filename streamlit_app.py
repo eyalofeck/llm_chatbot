@@ -93,6 +93,17 @@ if 'chat_initialized' not in st.session_state:
 # Page Home
 def page_home():
     st.title("סימולטור וירטואלי")
+      st.markdown("""
+    אנא הזינו את **ארבעת הספרות האחרונות** של תעודת הזהות שלכם.  
+    לאחר מכן, ייפתח חלון ובו תוכלו לנהל שיחה עם מטופל הפונה לעזרה באמצעות **מוקד של רפואה מרחוק**.  
+
+    ### המשימה שלכם:
+    - להבין את מצבו הרפואי של המטופל.  
+    - לבצע אומדנים ולקבל החלטות.  
+    - להקשיב למטופל ולשאול שאלות.  
+
+    **בהצלחה!**
+    """)
     user_name = st.text_input("הזן 4 ספרות אחרונות של ת.ז")
     if st.button("התחל סימולציה") and user_name:
         st.session_state.user_name = user_name
@@ -103,6 +114,19 @@ def page_home():
 # Page Chat
 def page_chat():
     st.title("מוקד רפואה מרחוק")
+
+    st.markdown(
+        """
+        <div style="background-color: #f0f8ff; padding: 10px; border-radius: 10px;direction: rtl; text-align: right;">
+            <strong>תיק רפואי של מר. יונתן בניון:</strong> <br>
+            <strong>COPD מתקדם:</strong> Prednisolone 10 mg, Fluticasone inhaler 500 mcg, חמצן <br>
+            <strong>יתר לחץ דם:</strong> Amlodipine 5 mg, Furosemide 40 mg <br>
+            <strong>סוכרת סוג 1:</strong> Novorapid, Glargine <br>
+            <strong>היסטוריה של עישון כבד:</strong> 40 שנות קופסא, הפסיק לעשן לפני 5 שנים
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     if prompt := st.chat_input("כתוב כאן"):
         with st.spinner("ממתין לתשובה..."):
