@@ -132,6 +132,8 @@ def page_home():
 def page_chat():
     st.title("מוקד רפואה מרחוק")
 
+    chat_placeholder = st.empty()
+
     st.markdown(
         """
         <div style="background-color: #f0f8ff; padding: 10px; border-radius: 10px;direction: rtl; text-align: right;">
