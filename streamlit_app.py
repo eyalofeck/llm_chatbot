@@ -110,7 +110,7 @@ if 'chat_initialized' not in st.session_state:
 # Page Home
 def page_home():
     st.title("סימולטור וירטואלי")
-      st.markdown("""
+    st.markdown("""
     אנא הזינו את **ארבעת הספרות האחרונות** של תעודת הזהות שלכם.  
     לאחר מכן, ייפתח חלון ובו תוכלו לנהל שיחה עם מטופל הפונה לעזרה באמצעות **מוקד של רפואה מרחוק**.  
 
