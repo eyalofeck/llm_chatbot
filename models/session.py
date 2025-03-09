@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship
 import database
 from database import Base, Session
 
-class Session(Base):
+class ChatSession(Base):
     __tablename__ = "sessions"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -20,7 +20,9 @@ class Session(Base):
 
 
 def create_new_session(name: str):
-    new_session = Session(name=name, created_at=datetime.now())
-    database.Session.add(new_session)
-    database.Session.commit()
+    db_session = Session()
+    new_session = ChatSession(name=name, created_at=datetime.now())
+    db_session.add(new_session)
+    db_session.commit()
+    db_session.close()
     return new_session.id
