@@ -225,8 +225,8 @@ def page_result():
             
             # Option to restart
             if st.button("התחל סימולציה חדשה"):
-                st.session_state.clear()
-                st.rerun()
+           #     st.session_state.clear()
+              #  st.rerun()
     except Exception as e:
         st.error(f"שגיאה בהכנת המשוב: {e}")
         if st.button("נסה שוב"):
