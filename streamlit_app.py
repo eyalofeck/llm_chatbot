@@ -115,7 +115,8 @@ def page_home():
     לאחר מכן, ייפתח חלון ובו תוכלו לנהל שיחה עם מטופל הפונה לעזרה באמצעות **מוקד של רפואה מרחוק**.  
 
     ### המשימה שלכם:
-    - להבין את מצבו הרפואי של המטופל.  
+    - אתם עובדים במוקד טלפוני
+    - עליכם לזהות את המצב הרפואי של המטופל שמתקשר.
     - לבצע אומדנים ולקבל החלטות.  
     - להקשיב למטופל ולשאול שאלות.  
 
@@ -128,11 +129,11 @@ def page_home():
         st.session_state.page = "Chat"
         st.rerun()
 
-# Page Chat
+
+
+    # Page Chat
 def page_chat():
     st.title("מוקד רפואה מרחוק")
-
-    st.markdown(
         """
         <div style="background-color: #f0f8ff; padding: 10px; border-radius: 10px;direction: rtl; text-align: right;">
             <strong>תיק רפואי של מר. יונתן בניון:</strong> <br>
@@ -144,14 +145,6 @@ def page_chat():
         """,
         unsafe_allow_html=True
     )
-
-    chat_placeholder = st.empty()
-    
-    with chat_placeholder.container():
-        for msg in st.session_state.memory.chat_memory.messages:
-            role = "user" if isinstance(msg, HumanMessage) else "assistant"
-            with st.chat_message(role):
-                st.markdown(msg.content)
 
     if prompt := st.chat_input("כתוב כאן"):
         with st.spinner("ממתין לתשובה..."):
@@ -165,22 +158,18 @@ def page_chat():
 
             st.session_state.memory.chat_memory.add_message(AIMessage(content=ai_response))  # Save AI response
 
-            #save_message("user", prompt, st.session_state.user_name, "assistant", datetime.now(), st.session_state.user_email, st.session_state.session_id)
-            
-            
             save_message("user", prompt, st.session_state.user_name, "assistant", datetime.now(), st.session_state.user_email, st.session_state.session_id)
-
-            
             save_message("assistant", ai_response, "assistant", st.session_state.user_name, datetime.now(), st.session_state.user_email, st.session_state.session_id)
 
-            chat_placeholder.empty()
-            with chat_placeholder.container():
-                for msg in st.session_state.memory.chat_memory.messages:
-                    role = "user" if isinstance(msg, HumanMessage) else "assistant"
-                    with st.chat_message(role):
-                        st.markdown(msg.content)
+            st.rerun()
 
-        st.rerun()   # רענון הממשק כדי לוודא שהתוכן מוצג מחדש עם ההודעה האחרונה
+    for msg in reversed(st.session_state.memory.chat_memory.messages):
+        role = "user" if isinstance(msg, HumanMessage) else "assistant"
+        st.chat_message(role).write(msg.content)
+
+    if st.button("סיים שיחה"):
+        st.session_state.page = "Result"
+        st.rerun()
 
         
 
