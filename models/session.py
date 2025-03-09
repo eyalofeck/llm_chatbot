@@ -1,11 +1,11 @@
 from datetime import datetime
 
-from requests import Session
+# from requests import Session
 from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, scoped_session
 
 import database
-from database import Base, Session
+from database import Base, SessionLocal
 
 class Session(Base):
     __tablename__ = "sessions"
@@ -20,9 +20,10 @@ class Session(Base):
 
 
 def create_new_session(name: str):
+    dbsession = scoped_session(SessionLocal)
     new_session = Session(name=name, created_at=datetime.now())
-    database.Session.add(new_session)
-    database.Session.commit()
+    dbsession.add(new_session)
+    dbsession.commit()
     return new_session.id
 
 
