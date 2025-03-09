@@ -145,6 +145,12 @@ def page_chat():
         unsafe_allow_html=True
     )
 
+     with chat_placeholder.container():
+        for msg in st.session_state.memory.chat_memory.messages:
+            role = "user" if isinstance(msg, HumanMessage) else "assistant"
+            with st.chat_message(role):
+                st.markdown(msg.content)
+
     if prompt := st.chat_input("כתוב כאן"):
         with st.spinner("ממתין לתשובה..."):
             human_msg = HumanMessage(content=prompt)
@@ -166,8 +172,15 @@ def page_chat():
             save_message("assistant", ai_response, "assistant", st.session_state.user_name, datetime.now(), st.session_state.user_email, st.session_state.session_id)
 
           
+            with chat_placeholder.container():
+                for msg in st.session_state.memory.chat_memory.messages:
+                    role = "user" if isinstance(msg, HumanMessage) else "assistant"
+                    with st.chat_message(role):
+                        st.markdown(msg.content)
 
-            st.rerun()
+            st.experimental_rerun()  # רענון הממשק כדי לוודא שהתוכן מוצג מחדש עם ההודעה האחרונה
+
+            #st.rerun()
 
     for msg in reversed(st.session_state.memory.chat_memory.messages):
         role = "user" if isinstance(msg, HumanMessage) else "assistant"
