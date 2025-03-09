@@ -1,16 +1,13 @@
 from datetime import datetime
 
-#from requests import Session
+from requests import Session
 from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import relationship, scoped_session, sessionmaker
+from sqlalchemy.orm import relationship
 
 import database
-from database import Base, engine
+from database import Base, Session
 
-SessionFactory = sessionmaker(bind=engine)
-SessionLocal = scoped_session(SessionFactory)
-
-class ChatSession(Base):
+class Session(Base):
     __tablename__ = "sessions"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -23,9 +20,9 @@ class ChatSession(Base):
 
 
 def create_new_session(name: str):
-    db_session = SessionLocal()
-    new_session = ChatSession(name=name, created_at=datetime.now())
-    db_session.add(new_session)
-    db_session.commit()
-    db_session.close()
+    new_session = Session(name=name, created_at=datetime.now())
+    database.Session.add(new_session)
+    database.Session.commit()
     return new_session.id
+
+
