@@ -32,9 +32,18 @@ st.markdown(
     body { direction: rtl; text-align: right; }
 
     /* Hide Streamlit branding (footer & top-right menu) */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
+    #MainMenu { display: none !important; }
+    footer { display: none !important; }
+    header { display: none !important; }
+
+    /* Hide mobile-specific Streamlit elements */
+    .stApp [data-testid="stDecoration"] { display: none !important; }
+    .stApp [data-testid="stSidebarNav"] { display: none !important; }
+    .stApp [data-testid="stToolbar"] { display: none !important; }
+    .stApp header { display: none !important; }
+
+    /* Ensure Streamlit UI is fully stretched */
+    .block-container { padding-top: 0px !important; }
     </style>
     """,
     unsafe_allow_html=True
