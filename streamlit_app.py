@@ -27,37 +27,49 @@ os.environ["LANGCHAIN_PROJECT"] = st.secrets["LANGSMITH_PROJECT"]
 # Streamlit styling for RTL Hebrew support
 # Apply custom CSS to hide all Streamlit branding and set RTL direction
 
-st.markdown(
-    """
-    <style>
-    /* Set right-to-left text alignment */
+import streamlit as st
+
+# More aggressive CSS targeting approach
+st.markdown("""
+<style>
+    /* RTL Support */
     body { direction: rtl; text-align: right; }
     
-    /* Hide all Streamlit branding */
-    #MainMenu {visibility: hidden; display: none !important;}
-    footer {visibility: hidden; display: none !important;}
-    header {visibility: hidden; display: none !important;}
+    /* Target all possible Streamlit branding locations */
+    #MainMenu, footer, header, 
+    [data-testid="stHeader"], 
+    [data-testid="stToolbar"],
+    [data-testid="stDecoration"],
+    [data-testid="stSidebarNav"],
+    section[data-testid="stSidebar"] div.stButton,
+    .stDeployButton,
+    .stActionButton,
+    span[data-baseweb="tag"] {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0px !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
     
-    /* Mobile-specific elements */
-    .stApp [data-testid="stDecoration"] {display: none !important;}
-    .stApp [data-testid="stToolbar"] {display: none !important;}
-    .stApp [data-testid="stSidebarNav"] {display: none !important;}
+    /* Remove extra spacing */
+    .main .block-container {
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+    }
     
-    /* Remove top padding to maximize screen space */
-    .block-container {padding-top: 0 !important; max-width: 100% !important;}
+    .stApp {
+        margin-top: 0 !important;
+    }
     
-    /* Remove extra margins and padding */
-    .main .block-container {padding: 0 !important; margin: 0 !important;}
-    
-    /* Hide hamburger menu on mobile */
-    button[kind="header"] {display: none !important;}
-    
-    /* Hide deployment button */
-    .stDeployButton {display: none !important;}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+    /* Override any inline styles */
+    div[style*="flex"] {
+        padding-top: 0 !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 
 
     
