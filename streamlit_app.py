@@ -25,29 +25,42 @@ os.environ["LANGCHAIN_API_KEY"] = st.secrets["LANGSMITH_API_KEY"]
 os.environ["LANGCHAIN_PROJECT"] = st.secrets["LANGSMITH_PROJECT"]
 
 # Streamlit styling for RTL Hebrew support
+# Apply custom CSS to hide all Streamlit branding and set RTL direction
+
 st.markdown(
     """
     <style>
     /* Set right-to-left text alignment */
     body { direction: rtl; text-align: right; }
-
-    /* Hide Streamlit branding (footer & top-right menu) */
-    #MainMenu { display: none !important; }
-    footer { display: none !important; }
-    header { display: none !important; }
-
-    /* Hide mobile-specific Streamlit elements */
-    .stApp [data-testid="stDecoration"] { display: none !important; }
-    .stApp [data-testid="stSidebarNav"] { display: none !important; }
-    .stApp [data-testid="stToolbar"] { display: none !important; }
-    .stApp header { display: none !important; }
-
-    /* Ensure Streamlit UI is fully stretched */
-    .block-container { padding-top: 0px !important; }
+    
+    /* Hide all Streamlit branding */
+    #MainMenu {visibility: hidden; display: none !important;}
+    footer {visibility: hidden; display: none !important;}
+    header {visibility: hidden; display: none !important;}
+    
+    /* Mobile-specific elements */
+    .stApp [data-testid="stDecoration"] {display: none !important;}
+    .stApp [data-testid="stToolbar"] {display: none !important;}
+    .stApp [data-testid="stSidebarNav"] {display: none !important;}
+    
+    /* Remove top padding to maximize screen space */
+    .block-container {padding-top: 0 !important; max-width: 100% !important;}
+    
+    /* Remove extra margins and padding */
+    .main .block-container {padding: 0 !important; margin: 0 !important;}
+    
+    /* Hide hamburger menu on mobile */
+    button[kind="header"] {display: none !important;}
+    
+    /* Hide deployment button */
+    .stDeployButton {display: none !important;}
     </style>
     """,
     unsafe_allow_html=True
 )
+
+
+    
 
 # Initialize OpenAI Model
 def import_llm_models():
