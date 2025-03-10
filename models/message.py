@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, scoped_session
 
 import database
 from database import Base, SessionLocal
@@ -39,11 +39,24 @@ class Message(Base):
 # Example: Save a new message
 def save_message(role, content, to, from_, timestamp, email, session_id):
     the_user = get_user_by_email(email)
-    new_message = Message(role=role, content=content, to=to, from_=from_, timestamp=timestamp, user=the_user, session_id=session_id)
-    database.Session.add(new_message)
-    database.Session.commit()
+    dbsession = scoped_session(SessionLocal)
+    try:
+        new_message = Message(role=role, content=content, to=to, from_=from_, timestamp=timestamp, user=the_user, session_id=session_id)
+        dbsession.add(new_message)
+        dbsession.commit()
+    except:
+        dbsession.rollback()
+        raise
+    finally:
+        dbsession.remove()
+
+# def save_message(role, content, to, from_, timestamp, email, session_id):
+#     the_user = get_user_by_email(email)
+#     new_message = Message(role=role, content=content, to=to, from_=from_, timestamp=timestamp, user=the_user, session_id=session_id)
+#     database.Session.add(new_message)
+#     database.Session.commit()
 
 
-# Example: Query all messages
-def get_all_messages():
-    return database.Session.query(Message).all()
+# # Example: Query all messages
+# def get_all_messages():
+#     return database.Session.query(Message).all()

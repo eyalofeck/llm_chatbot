@@ -179,7 +179,7 @@ def page_chat():
         role = "user" if isinstance(msg, HumanMessage) else "assistant"
         st.chat_message(role).write(msg.content)
 
-    if len(st.session_state.memory.chat_memory.messages) > 20:
+    if len(st.session_state.memory.chat_memory.messages) >= 20:
         if st.button("סיים שיחה"):
             st.session_state.page = "Result"
             st.rerun()

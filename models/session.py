@@ -21,9 +21,15 @@ class Session(Base):
 
 def create_new_session(name: str):
     dbsession = scoped_session(SessionLocal)
-    new_session = Session(name=name, created_at=datetime.now())
-    dbsession.add(new_session)
-    dbsession.commit()
-    return new_session.id
+    try:
+        new_session = Session(name=name, created_at=datetime.now())
+        dbsession.add(new_session)
+        dbsession.commit()
+        return new_session.id
+    except:
+        dbsession.rollback()
+        raise
+    finally:
+        dbsession.remove()
 
 
