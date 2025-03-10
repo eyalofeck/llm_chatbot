@@ -28,7 +28,13 @@ os.environ["LANGCHAIN_PROJECT"] = st.secrets["LANGSMITH_PROJECT"]
 st.markdown(
     """
     <style>
+    /* Set right-to-left text alignment */
     body { direction: rtl; text-align: right; }
+
+    /* Hide Streamlit branding (footer & top-right menu) */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
     </style>
     """,
     unsafe_allow_html=True
