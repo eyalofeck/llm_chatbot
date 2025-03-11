@@ -58,16 +58,6 @@ st.markdown("""
         margin: 0 !important;
         max-width: 100% !important;
     }
-
-      }
-
-            /* Try repositioning Streamlit branding */
-            [data-testid="stDecoration"] {
-                position: absolute !important;
-                top: 10px !important;
-                left: 10px !important;
-                transform: scale(0.8);
-            }
         }
     
     .stApp {
