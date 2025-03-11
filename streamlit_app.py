@@ -71,10 +71,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-div[data-testid="stBottomBlockContainer"] {
-    margin-right: 150px !important;
-    margin-bottom: 150px !important;
-}
+st.markdown("""
+    <style>
+        div[data-testid="stBottomBlockContainer"] {
+            margin-right: 150px !important;
+            margin-bottom: 150px !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
     
 
