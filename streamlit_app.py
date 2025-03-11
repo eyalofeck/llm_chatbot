@@ -70,17 +70,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-
-st.markdown("""
-    <style>
-        div[data-testid="stBottomBlockContainer"] {
-            margin-right: 150px !important;
-            #margin-bottom: 50px !important;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-    
+   
 
 # Initialize OpenAI Model
 def import_llm_models():
