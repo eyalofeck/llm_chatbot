@@ -70,20 +70,12 @@ st.markdown("""
 
 
 
-
-
-        
-        /* Adjustments specifically for mobile screens */
-        @media only screen and (max-width: 768px) {
-            
-            /* Try forcing Streamlit branding (watermark) to hide */
-            [data-testid="stDecoration"] {
-                display: none !important;
-                visibility: hidden !important;
-                opacity: 0 !important;
-                height: 0 !important;
-                width: 0 !important;
-                pointer-events: none !important;
+[data-testid="stDecoration"] {
+                position: fixed !important;
+                top: 10px !important;
+                left: 10px !important; /* Move to left side */
+                transform: scale(0.8);
+                z-index: 9999 !important;
             }
 
     }
