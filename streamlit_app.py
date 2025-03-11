@@ -71,7 +71,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-
+div[data-testid="stBottomBlockContainer"] {
+    margin-right: 150px !important; /* Adjust the margin size as needed */
+    margin-bottom: 150px !important;
+}
     
 
 # Initialize OpenAI Model
