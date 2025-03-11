@@ -73,7 +73,7 @@ st.markdown("""
 [data-testid="stDecoration"] {
                 position: fixed !important;
                 top: 10px !important;
-                left: 10px !important; /* Move to left side */
+                right: 10px !important; /* Move to left side */
                 transform: scale(0.8);
                 z-index: 9999 !important;
             }
