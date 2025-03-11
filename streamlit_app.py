@@ -67,6 +67,25 @@ st.markdown("""
     /* Override any inline styles */
     div[style*="flex"] {
         padding-top: 0 !important;
+
+
+
+
+
+        
+        /* Adjustments specifically for mobile screens */
+        @media only screen and (max-width: 768px) {
+            
+            /* Try forcing Streamlit branding (watermark) to hide */
+            [data-testid="stDecoration"] {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+                height: 0 !important;
+                width: 0 !important;
+                pointer-events: none !important;
+            }
+
     }
 </style>
 """, unsafe_allow_html=True)
