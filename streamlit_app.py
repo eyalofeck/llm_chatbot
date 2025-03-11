@@ -67,17 +67,6 @@ st.markdown("""
     /* Override any inline styles */
     div[style*="flex"] {
         padding-top: 0 !important;
-
-
-
-[data-testid="stDecoration"] {
-                position: fixed !important;
-                top: 10px !important;
-                right: 10px !important; /* Move to left side */
-                transform: scale(0.8);
-                z-index: 9999 !important;
-            }
-
     }
 </style>
 """, unsafe_allow_html=True)
