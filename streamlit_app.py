@@ -72,9 +72,10 @@ st.markdown("""
 
 
 div[data-testid="stBottomBlockContainer"] {
-    margin-right: 150px !important; /# Adjust the margin size as needed */
+    margin-right: 150px !important;
     margin-bottom: 150px !important;
 }
+
     
 
 # Initialize OpenAI Model
