@@ -277,7 +277,7 @@ def page_result():
  # הוספת קישור אחרי הצגת המשוב
             st.markdown("""
             ---
-            📌 [אנא ענו על השאלון הבא:](https://telavivmedicine.fra1.qualtrics.com/jfe/form/SV_cV1yfs9KIQDEEh8)
+            📌 [תודה לכם על ההשתפות בסימולציה, הקליקו פה כדי לענות על שאלון](https://telavivmedicine.fra1.qualtrics.com/jfe/form/SV_cV1yfs9KIQDEEh8)
             """, unsafe_allow_html=True)
 
     
