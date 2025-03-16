@@ -272,7 +272,15 @@ def page_result():
             
             # Save feedback to database
             save_result(feedback, datetime.now(), st.session_state.user_email, st.session_state.session_id)
-            
+
+
+ # הוספת קישור אחרי הצגת המשוב
+            st.markdown("""
+            ---
+            📌 [אנא ענו על השאלון הבא:](https://telavivmedicine.fra1.qualtrics.com/jfe/form/SV_cV1yfs9KIQDEEh8)
+            """, unsafe_allow_html=True)
+
+    
             # Option to restart
            # if st.button("התחל סימולציה חדשה"):
            #     st.session_state.clear()
