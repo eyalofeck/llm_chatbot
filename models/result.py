@@ -42,7 +42,10 @@ def save_result(summarize, timestamp, email, session_id):
         results = Result(summarize=summarize, timestamp=timestamp, user=the_user, session_id=session_id)
         dbsession.add(results)
         dbsession.commit()
-    except:
+    # except:
+    # EO Debug
+    except Exception as e:
+        print(f"Error writing reults to DB for user: {the_user}: {e}")
         dbsession.rollback()
         raise
     finally:
