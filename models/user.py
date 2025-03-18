@@ -45,6 +45,10 @@ def get_user_by_email(email):
     try:
         user = dbsession.query(User).filter(User.email == email).first()
         return user
+    # EO Debug
+    except Exception as e:
+        print(f"Error fetching user {email}: {e}")
+        raise
     finally:
         dbsession.remove()
 
