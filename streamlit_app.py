@@ -4,6 +4,7 @@ from datetime import datetime
 
 import openai
 import streamlit as st
+from openai import RateLimitError, APIError
 
 import database
 import models
@@ -16,6 +17,24 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.schema import HumanMessage, AIMessage, SystemMessage
 from langchain.chains.summarize import load_summarize_chain
 from langchain_core.documents import Document  # Fixed missing import
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+
+@retry(
+    stop=stop_after_attempt(5),  # Maximum retries before failing
+    wait=wait_exponential(multiplier=1, min=1, max=20),  # Exponential backoff (1s → 2s → 4s → 8s → 16s max)
+    retry=retry_if_exception_type((RateLimitError, APIError)),  # Retry only if these errors occur
+)
+def safe_request(chat_instance, prompt):
+    """Make a request to OpenAI with automatic retries on rate limits."""
+    try:
+        return chat_instance.invoke(prompt).content  # Using LangChain's invoke method
+    except RateLimitError:
+        print("Rate limit reached. Retrying after backoff...")
+        raise  # Raise exception to trigger retry
+    except APIError as e:
+        print(f"OpenAI API error: {e}. Retrying...")
+        raise
+
 
 # Load environment variables
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
@@ -207,7 +226,11 @@ def page_chat():
             messages = [SystemMessage(content=st.session_state.system_template)] + \
                        st.session_state.memory.chat_memory.messages[-10:]
 
-            ai_response = st.session_state.llm.invoke(messages).content  # Fixed invocation
+            # ai_response = st.session_state.llm.invoke(messages).content  # Fixed invocation
+            try:
+                ai_response = safe_request(st.session_state.llm, messages)
+            except Exception as e:
+                print(f"Final failure after retries: {e}")
 
             st.session_state.memory.chat_memory.add_message(AIMessage(content=ai_response))  # Save AI response
 
@@ -265,7 +288,11 @@ def page_result():
             """
             
             # Use direct LLM call instead of summarize chain for more control
-            feedback = st.session_state.llm.invoke(evaluation_prompt).content
+            # feedback = st.session_state.llm.invoke(evaluation_prompt).content
+            try:
+                feedback = safe_request(st.session_state.llm, evaluation_prompt)
+            except Exception as e:
+                print(f"Final failure after retries: {e}")
             
             # Display feedback
             st.write(feedback)
