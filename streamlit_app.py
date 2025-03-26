@@ -20,7 +20,7 @@ from langchain_core.documents import Document  # Fixed missing import
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 @retry(
-    stop=stop_after_attempt(5),  # Maximum retries before failing
+    stop=stop_after_attempt(6),  # Maximum retries before failing
     wait=wait_exponential(multiplier=1, min=1, max=20),  # Exponential backoff (1s → 2s → 4s → 8s → 16s max)
     retry=retry_if_exception_type((RateLimitError, APIError)),  # Retry only if these errors occur
 )
@@ -29,7 +29,7 @@ def safe_request(chat_instance, prompt):
     try:
         return chat_instance.invoke(prompt).content  # Using LangChain's invoke method
     except RateLimitError:
-        print("Rate limit reached. Retrying after backoff...")
+        print(f"{datetime.now()} Rate limit reached. Retrying after backoff...")
         raise  # Raise exception to trigger retry
     except APIError as e:
         print(f"OpenAI API error: {e}. Retrying...")
