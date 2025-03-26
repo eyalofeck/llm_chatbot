@@ -21,7 +21,7 @@ from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_excep
 
 @retry(
     stop=stop_after_attempt(6),  # Maximum retries before failing
-    wait=wait_exponential(multiplier=1, min=1, max=20),  # Exponential backoff (1s → 2s → 4s → 8s → 16s max)
+    wait=wait_exponential(multiplier=2, min=5, max=30),  # Exponential backoff (1s → 2s → 4s → 8s → 16s max)
     retry=retry_if_exception_type((RateLimitError, APIError)),  # Retry only if these errors occur
 )
 def safe_request(chat_instance, prompt):
