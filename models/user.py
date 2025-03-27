@@ -1,6 +1,4 @@
 # from requests import Session
-from math import trunc
-
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship, scoped_session
 from database import Base, SessionLocal
@@ -26,10 +24,10 @@ class User(Base):
 
 
 def add_user(new_user, user_email):
+    if get_user_by_email(user_email):
+        return
     dbsession = scoped_session(SessionLocal)
     try:
-        if get_user_by_email(user_email, dbsession):
-            return
         dbsession.add(new_user)
         dbsession.commit()
     except:
@@ -42,11 +40,8 @@ def add_user(new_user, user_email):
 #     user = Session.query(User).filter(User.email == email).first()
 #     return user
 
-def get_user_by_email(email, dbsession=None):
-    created_here = False
-    if dbsession is None:
-        dbsession = scoped_session(SessionLocal)
-        created_here = True
+def get_user_by_email(email):
+    dbsession = scoped_session(SessionLocal)
     try:
         user = dbsession.query(User).filter(User.email == email).first()
         return user
@@ -55,6 +50,5 @@ def get_user_by_email(email, dbsession=None):
         print(f"Error fetching user {email}: {e}")
         raise
     finally:
-        if created_here:
-            dbsession.remove()
+        dbsession.remove()
 
